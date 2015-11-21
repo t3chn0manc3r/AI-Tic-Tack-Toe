@@ -24,4 +24,4 @@ How to run a match:
 
 Every so often I will update this file with the AI who does the best.
 
-Current AI to beat : TestAI (It randomly selects moves so it should not be hard to beat)
+Current AI to beat : TheronAI
