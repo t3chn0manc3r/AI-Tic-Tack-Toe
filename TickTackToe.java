@@ -37,8 +37,8 @@ public class TickTackToe {
 		}
 		two.setSide('o');
 		
-		System.out.println("\nAI 1 \""+one.getName()+"\" is : "+one.getSide());
-		System.out.println("AI 2 \""+two.getName()+"\" is : "+two.getSide()+"\n");
+		System.out.println("\""+one.getName()+"\" is : "+one.getSide());
+		System.out.println("\""+two.getName()+"\" is : "+two.getSide()+"\n");
 		
 		TTTBoard board = new TTTBoard();
 		
@@ -49,7 +49,7 @@ public class TickTackToe {
 		while(!won){
 			boolean goodPlace = false;
 			if(turn){
-				System.out.println("AI 1's Turn...");
+				System.out.println(one.getName()+"'s Turn...");
 				while(!goodPlace){
 					Point move = one.move(board.getBoardCopy());
 					goodPlace = board.place(one.getSide(),move);
@@ -62,7 +62,7 @@ public class TickTackToe {
 				turn = !turn;
 			}
 			else{
-				System.out.println("AI 2's Turn...");
+				System.out.println(two.getName()+"'s Turn...");
 				while(!goodPlace){
 					Point move = two.move(board.getBoardCopy());
 					goodPlace = board.place(two.getSide(),move);
