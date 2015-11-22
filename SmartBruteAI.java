@@ -85,10 +85,6 @@ public class SmartBruteAI extends AI {
 					}
 				}
 			}
-//DEBUG
-			for (int i = 0; i < stratCount.length; i++)
-				System.out.print(stratCount[i] + " ");
-			System.out.println();
 			
 			ArrayList<Integer> strats2 = new ArrayList<Integer>();
 			ArrayList<Integer> strats1 = new ArrayList<Integer>();
@@ -112,8 +108,7 @@ public class SmartBruteAI extends AI {
 				if (checkStrat(tmpStrat))
 					strat = tmpStrat;
 			}
-//DEBUG
-			System.out.println(strat);
+			
 			if (strat == -1)	// no strat picked; pick a random open point
 			{
 				Random r = new Random();
@@ -153,14 +148,6 @@ public class SmartBruteAI extends AI {
 			}
 		}
 		return false;					// enemy piece found
-	}
-//DEBUG
-	private void printArrayList(ArrayList<Integer> list)
-	{
-		for (int i = 0; i < list.size(); i++)
-		{
-			System.out.println(list.get(i) + " ");
-		}
 	}
 
 }
