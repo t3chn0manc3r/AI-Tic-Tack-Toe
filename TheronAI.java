@@ -51,17 +51,26 @@ public class TheronAI extends AI {
 		
 		
 		//Check if I can win
+		System.out.println("Theron - \"Can I win?\"");
 		ArrayList<Point> wins = checkForWin(side, b);
-		if(wins.size() > 0) return wins.get(0);
+		if(wins.size() > 0){
+			System.out.println("Theron - \"Yes, I can win!\"");
+			return wins.get(0);
+		}
 		
 		//Check if opponent can win to block
+		System.out.println("Theron - \"So I can't win... Do I need to block?\"");
 		char toDef;
 		if(side == 'x') toDef = 'o';
 		else toDef = 'x';
 		ArrayList<Point> def = checkForWin(toDef,b);
-		if(def.size() > 0) return def.get(0);
+		if(def.size() > 0){
+			System.out.println("Theron - \"My opponent can win! I need to block...\"");
+			return def.get(0);
+		}
 		
 		//Try to get me to have the most wins
+		System.out.println("Theron - \"There are no urgent moves to make. So what can give me the most potential wins?\"");
 		ArrayList<Point> most = new ArrayList<Point>(),test;
 		Point winning = new Point();
 		TTTBoard copy;
@@ -81,6 +90,14 @@ public class TheronAI extends AI {
 		if(most.size() != 0) return winning;
 		
 		//idk what im doing with this statement......
+		System.out.println("Theron - \"Well... This is already a tie game... GG!\"");
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				if(b.checkSpace(new Point(i,j)) == ' '){
+					return new Point(i,j);
+				}
+			}
+		}
 		return new Point(-1,-1);
 	}
 	
