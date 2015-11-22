@@ -5,24 +5,22 @@ import java.awt.Point;
  * AI created by Tyler Dahl
  *
  * Utilizes minimax algorithm to choose the best move based upon possible future moves.
- * It assumes that the opponent chooses the best possible move they can make.
- * 
- * choose the node with the highest value
- * value is calculated from sub-nodes
- * a node has to be "evaluated" - in this case, 
+ * It assumes that the opponent always chooses the best possible move they can make.
  * 
  * The first player always chooses the move that will maximize their score.
  * The second player always chooses the move that will minimize their score.
  * 
- * In this case, scores range from 0-1
+ * In this case, scores range from 0-10
+ * - 10 being guaranteed win for first player
  * - 0 being guaranteed win for second player
- * - 1 being guaranteed win for first player
+ * - 5 being guaranteed tie (unless the opponent messes up, in which case a win is possible)
  *
  * @author Tyler Dahl/tiedie211 
  */
 public class MinimaxAI extends AI {
 
    private char enemySide;
+   private int nodesGenerated = 0;
 
    public MinimaxAI() {
       name = "Minimax";
@@ -32,64 +30,69 @@ public class MinimaxAI extends AI {
    public Point move(TTTBoard board) {
       enemySide = (side == 'x') ? 'o' : 'x';
 
-      double bestValue = Double.MIN_VALUE;
+      int bestValue = Integer.MIN_VALUE;
       int bestIndex = 0;
+
       List<TTTBoard> possibleMoves = possibleMoves(board, side);
+      Map<Integer, List<Point>> possibleMovesMap = new HashMap<>();
       for (int i = 0; i < possibleMoves.size(); i++) {
-         Point newMove = getNewMove(board, possibleMoves.get(i));
-         //System.out.println("MyMove: " + (newMove.x + newMove.y * 3) + " Depth: " + possibleMoves.size());
-         double value = minimax(possibleMoves.get(i), possibleMoves.size(), false, 0);
-         System.out.println(getNewMove(board, possibleMoves.get(i)) + " = " + value);
-         // int value = numberOfWins(possibleMoves.get(i), true, side);
+
+         // Use minimax to calculate the best course of action.
+         Integer value = minimax(possibleMoves.get(i), possibleMoves.size() - 1, false);
+         System.out.printf("%s = %s\n", getNewMove(board, possibleMoves.get(i)), value);
+         
+         // Add this move to the map of possible moves, using its value as the key
+         List<Point> moves = possibleMovesMap.get(value);
+         if (moves == null) {
+            moves = new ArrayList<>();
+         }
+         moves.add(getNewMove(board, possibleMoves.get(i)));
+         possibleMovesMap.put(value, moves);
+
+         // Remember best value
          if (value > bestValue) {
             bestValue = value;
             bestIndex = i;
          }
       }
-      return getNewMove(board, possibleMoves.get(bestIndex));
+
+      // Print the number of nodes generated for minimax algorithm
+      System.out.println("Total nodes generated: " + nodesGenerated);
+      nodesGenerated = 0;
+
+      // Return a random move from the list of best moves.
+      List<Point> moves = possibleMovesMap.get(bestValue);
+      return moves.get((int)(Math.random() * moves.size()));
    }
 
-   private int numberOfWins(TTTBoard node, boolean myTurn, char side) {
-      if (hasSolution(node, side)) return 1;
-      if (hasSolution(node, (side == 'x') ? 'o' : 'x')) return 0;
-      if (noMoves(node)) return 0;
-
-      int value = 0;
-      for (TTTBoard move : possibleMoves(node, (myTurn) ? side : ((side == 'x') ? 'o' : 'x'))) {
-         value += numberOfWins(move, !myTurn, side);
-      }
-      return value;
-   }
-
-   private double minimax(TTTBoard node, int depth, boolean myTurn, int rowsChecked) {
-      if (hasSolution(node, side)) return 1;
+   private int minimax(TTTBoard node, int depth, boolean myTurn) {
+      nodesGenerated++;
+      if (hasSolution(node, side)) return 10;
       if (hasSolution(node, enemySide)) return 0;
-      if (depth == 1) return 0.5;
+      if (depth == 0) return 5;
 
       if (myTurn) {
-         double bestValue = Double.MIN_VALUE;
+         int bestValue = Integer.MIN_VALUE;
          for (TTTBoard move : possibleMoves(node, side)) {
             Point newMove = getNewMove(node, move);
-            //System.out.println("MyMove: " + (newMove.x + newMove.y * 3) + " Depth: " + (depth - 1));
-            double value = minimax(move, depth - 1, !myTurn, rowsChecked + 1);
-            //System.out.println("MyMove: " + (newMove.x + newMove.y * 3) + " Value: " + value + " Depth: " + depth);
+            int value = minimax(move, depth - 1, !myTurn);
             bestValue = Math.max(bestValue, value);
+
             // Prune tree
-            if (bestValue == 1) {
+            if (bestValue >= 10) { // guaranteed win
                break;
             }
          }
          return bestValue;
       } else {
-         double bestValue = Double.MAX_VALUE;
+         int bestValue = Integer.MAX_VALUE;
          for (TTTBoard move : possibleMoves(node, enemySide)) {
             Point newMove = getNewMove(node, move);
-            //System.out.println("EnMove: " + (newMove.x + newMove.y * 3) + " Depth: " + (depth - 1));
-            double value = minimax(move, depth - 1, !myTurn, rowsChecked + 1);
-            //System.out.println("EnMove: " + (newMove.x + newMove.y * 3) + " Depth: " + depth);
+            int value = minimax(move, depth - 1, !myTurn);
             bestValue = Math.min(bestValue, value);
+
             // Prune tree
-            if (bestValue == 0) {
+            if (bestValue <= 0) { // guaranteed loss
                break;
             }
          }
@@ -97,30 +100,8 @@ public class MinimaxAI extends AI {
       }
    }
 
-   private boolean forcedToMove(TTTBoard board, char side) {
-      char otherSide = (side == 'x') ? 'o' : 'x';
-      List<TTTBoard> moves = possibleMoves(board, otherSide);
-      for (TTTBoard move : moves) {
-         if (move.winCheck() == otherSide) {
-            return true;
-         }
-      }
-      return false;
-   }
-
    private boolean hasSolution(TTTBoard board, char side) {
       return board.winCheck() == side;
-   }
-
-   private boolean noMoves(TTTBoard board) {
-      for (int i = 0; i < 3; i++) {
-         for (int j = 0; j < 3; j++) {
-            if (board.checkSpace(new Point(i, j)) == ' ') {
-               return false;
-            }
-         }
-      }
-      return true;
    }
 
    private List<TTTBoard> possibleMoves(TTTBoard board, char side) {
