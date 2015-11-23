@@ -20,7 +20,7 @@ import java.awt.Point;
 public class MinimaxAI extends AI {
 
    private char enemySide;
-   private int nodesGenerated = 0;
+   // private int nodesGenerated = 0;
 
    public MinimaxAI() {
       name = "Minimax";
@@ -39,7 +39,7 @@ public class MinimaxAI extends AI {
 
          // Use minimax to calculate the best course of action.
          Integer value = minimax(possibleMoves.get(i), possibleMoves.size() - 1, false);
-         System.out.printf("%s = %s\n", getNewMove(board, possibleMoves.get(i)), value);
+         //System.out.printf("%s = %s\n", getNewMove(board, possibleMoves.get(i)), value);
          
          // Add this move to the map of possible moves, using its value as the key
          List<Point> moves = possibleMovesMap.get(value);
@@ -57,8 +57,8 @@ public class MinimaxAI extends AI {
       }
 
       // Print the number of nodes generated for minimax algorithm
-      System.out.println("Total nodes generated: " + nodesGenerated);
-      nodesGenerated = 0;
+      // System.out.println("Total nodes generated: " + nodesGenerated);
+      // nodesGenerated = 0;
 
       // Return a random move from the list of best moves.
       List<Point> moves = possibleMovesMap.get(bestValue);
@@ -66,7 +66,7 @@ public class MinimaxAI extends AI {
    }
 
    private int minimax(TTTBoard node, int depth, boolean myTurn) {
-      nodesGenerated++;
+      // nodesGenerated++;
       if (hasSolution(node, side)) return 10;
       if (hasSolution(node, enemySide)) return 0;
       if (depth == 0) return 5;
