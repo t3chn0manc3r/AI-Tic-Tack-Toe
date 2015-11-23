@@ -17,9 +17,9 @@ Coordinate System:
 --------------- 
 
 How to run a match:
+
 1. Make sure that all the AI files are in the same directory as the other files and compile them together
-2. You will be prompted for the name of the AI, type in your file name without the .java extention
-    ex: TestAI.java would be entered as "TestAI"
+2. You will be prompted for the name of the AI, type in your file name without the .java extention (ex: TestAI.java would be entered as "TestAI")
 3. Sit back an enjoy! The board will be printed out for each move.
 
 Every so often I will update this file with the AI who does the best.
