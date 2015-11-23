@@ -16,7 +16,7 @@ public class TheronAI extends AI {
 		if(turn == 1){
 			turn++;
 			if(side == 'o'){
-				if(b.checkSpace(new Point(1,1))==' '){
+				if(b.checkSpace(new Point(1,1)) == ' '){
 					return new Point(1,1);
 				}
 				else{

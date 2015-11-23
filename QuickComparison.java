@@ -182,6 +182,15 @@ public class QuickComparison {
 					}
 				}
 			}
+			//reseting AI's
+			try{
+				one = (AI) (Class.forName(nameOne).newInstance());
+			}
+			catch(Exception e){}
+			try{
+				two = (AI) (Class.forName(nameTwo).newInstance());
+			}
+			catch(Exception e){}
 		}
 		System.out.println("\nStats\n----------------------------------------------------------------");
 		System.out.println(one.getName()+":");
