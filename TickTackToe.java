@@ -12,7 +12,8 @@ public class TickTackToe {
 	public static void main(String[] args){
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Name of AI 1: ");
-		String nameOne = scan.nextLine();
+		//String nameOne = scan.nextLine();
+		String nameOne = "Human";
 		nameOne = nameOne.trim();
 		AI one,two;
 		try{
@@ -25,14 +26,15 @@ public class TickTackToe {
 		}
 		one.setSide('x');
 		System.out.println("Name of AI 2: ");
-		String nameTwo = scan.nextLine();
-		scan.close();
+		//String nameTwo = scan.nextLine();
+		String nameTwo = "TheronAI";
 		nameTwo = nameTwo.trim();
 		try{
 			two = (AI) (Class.forName(nameTwo).newInstance());
 		}
 		catch(Exception e){
 			System.out.println("Could not load AI two.");
+			scan.close();
 			return;
 		}
 		two.setSide('o');
@@ -79,6 +81,7 @@ public class TickTackToe {
 			char check = board.winCheck();
 			won = check != '-' || check == 't';
 		}
+		scan.close();
 		char winner = board.winCheck();
 		if(one.getSide() == winner){
 			System.out.println("AI 1 \""+one.getName()+"\" Wins!");
