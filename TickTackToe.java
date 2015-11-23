@@ -12,8 +12,7 @@ public class TickTackToe {
 	public static void main(String[] args){
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Name of AI 1: ");
-		//String nameOne = scan.nextLine();
-		String nameOne = "Human";
+		String nameOne = scan.nextLine();
 		nameOne = nameOne.trim();
 		AI one,two;
 		try{
@@ -26,8 +25,7 @@ public class TickTackToe {
 		}
 		one.setSide('x');
 		System.out.println("Name of AI 2: ");
-		//String nameTwo = scan.nextLine();
-		String nameTwo = "TheronAI";
+		String nameTwo = scan.nextLine();
 		nameTwo = nameTwo.trim();
 		try{
 			two = (AI) (Class.forName(nameTwo).newInstance());
