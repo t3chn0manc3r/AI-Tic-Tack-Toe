@@ -20,13 +20,11 @@ public class TickTackToe {
 		}
 		catch(Exception e){
 			System.out.println("Could not load AI one.");
-			scan.close();
 			return;
 		}
 		one.setSide('x');
 		System.out.println("Name of AI 2: ");
 		String nameTwo = scan.nextLine();
-		scan.close();
 		nameTwo = nameTwo.trim();
 		try{
 			two = (AI) (Class.forName(nameTwo).newInstance());
