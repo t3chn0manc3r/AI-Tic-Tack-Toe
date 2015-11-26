@@ -19,7 +19,14 @@ public class TTTPanel extends JPanel {
 		o = null;
 		board = null;
 		try{
-			String folder = new File( "." ).getCanonicalPath()+"\\TTTSprites\\";
+			String folder = new File( "." ).getCanonicalPath();
+			String sys = System.getProperty("os.name");
+			if(sys.equalsIgnoreCase("windows")){
+				folder += "\\TTTSprites\\";
+			}
+			else{
+				folder += "/TTTSprites/";
+			}
 			board = new ImageIcon(folder+"board.png");
 			x = new ImageIcon(folder+"x.png");
 			o = new ImageIcon(folder+"o.png");
