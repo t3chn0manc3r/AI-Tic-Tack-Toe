@@ -76,7 +76,7 @@ public class TTTPanel extends JPanel {
 				g.setFont(new Font("SansSerif",Font.BOLD,init));
 			}
 			g.setColor(Color.CYAN);
-			g.drawString(sentence.toUpperCase(), (getWidth() - g.getFontMetrics().stringWidth(sentence))/2, getHeight()/2);
+			g.drawString(sentence.toUpperCase(), (getWidth() - g.getFontMetrics().stringWidth(sentence))/2, getHeight()/2 + (g.getFontMetrics().getHeight())/4);
 		}
 	}
 }

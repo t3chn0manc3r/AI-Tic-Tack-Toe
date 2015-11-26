@@ -24,7 +24,10 @@ public class TicTacToeGUI{
 			icon = ImageIO.read(iconFile);
 		}
 		catch(Exception e){
-			System.out.println(e);
+			System.out.println("Check that the sprite folder is in the following directory:");
+			String location = "error";
+			try{location = new File(".").getCanonicalPath();}catch(Exception ex){}
+			System.out.println(location);
 		}
 		frame.setIconImage(icon);
 		frame.setSize(600, 600);
