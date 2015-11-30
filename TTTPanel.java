@@ -20,8 +20,8 @@ public class TTTPanel extends JPanel {
 		board = null;
 		try{
 			String folder = new File( "." ).getCanonicalPath();
-			String sys = System.getProperty("os.name");
-			if(sys.equalsIgnoreCase("windows")){
+			String sys = System.getProperty("os.name").toLowerCase();
+			if(sys.contains("windows")){
 				folder += "\\TTTSprites\\";
 			}
 			else{
